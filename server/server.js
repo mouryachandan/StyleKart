@@ -1,5 +1,3 @@
-// server.js
-
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
@@ -25,9 +23,9 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("MongoDB connected successfully");
+    console.log("✅ MongoDB connected successfully");
   } catch (error) {
-    console.error("MongoDB connection error:", error.message);
+    console.error("❌ MongoDB connection error:", error.message);
     process.exit(1);
   }
 };
@@ -36,18 +34,23 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
+// CORS Configuration - Multiple Frontend Origins Allowed
+const allowedOrigins = [
+  "https://style-kart-lcsd.vercel.app",
+  "https://style-kart-yn39-chandan-kumars-projects-b673cdc0.vercel.app/", // New frontend URL
+];
+
 app.use(
   cors({
-    origin: "https://style-kart-lcsd.vercel.app",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("❌ Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "DELETE", "PUT"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Cache-Control",
-      "Expires",
-      "Pragma",
-    ],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
