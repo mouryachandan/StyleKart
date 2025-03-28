@@ -39,7 +39,7 @@ const PORT = process.env.PORT || 5000;
 // Middlewares
 app.use(
   cors({
-    origin: "https://style-kart-lcsd.vercel.app/",
+    origin: "https://style-kart-lcsd.vercel.app",
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
