@@ -1,12 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BASE_URL = "https://stylekart-1-u0g8.onrender.com/api";
+
 const initialState = {
   isLoading: false,
   productList: [],
   productDetails: null,
 };
 
+// Fetch all filtered products
 export const fetchAllFilteredProducts = createAsyncThunk(
   "/products/fetchAllProducts",
   async ({ filterParams, sortParams }) => {
@@ -17,9 +20,7 @@ export const fetchAllFilteredProducts = createAsyncThunk(
       sortBy: sortParams,
     });
 
-    const result = await axios.get(
-      `http://localhost:5000/api/shop/products/get?${query}`
-    );
+    const result = await axios.get(`${BASE_URL}/shop/products/get?${query}`);
 
     console.log(result);
 
@@ -27,12 +28,11 @@ export const fetchAllFilteredProducts = createAsyncThunk(
   }
 );
 
+// Fetch product details
 export const fetchProductDetails = createAsyncThunk(
   "/products/fetchProductDetails",
   async (id) => {
-    const result = await axios.get(
-      `http://localhost:5000/api/shop/products/get/${id}`
-    );
+    const result = await axios.get(`${BASE_URL}/shop/products/get/${id}`);
 
     return result?.data;
   }

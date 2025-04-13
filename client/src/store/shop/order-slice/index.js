@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const BASE_URL = "https://stylekart-1-u0g8.onrender.com/api";
+
 const initialState = {
   approvalURL: null,
   isLoading: false,
@@ -9,52 +11,42 @@ const initialState = {
   orderDetails: null,
 };
 
+// Create a new order
 export const createNewOrder = createAsyncThunk(
   "/order/createNewOrder",
   async (orderData) => {
-    const response = await axios.post(
-      "http://localhost:5000/api/shop/order/create",
-      orderData
-    );
-
+    const response = await axios.post(`${BASE_URL}/shop/order/create`, orderData);
     return response.data;
   }
 );
 
+// Capture payment for an order
 export const capturePayment = createAsyncThunk(
   "/order/capturePayment",
   async ({ paymentId, payerId, orderId }) => {
-    const response = await axios.post(
-      "http://localhost:5000/api/shop/order/capture",
-      {
-        paymentId,
-        payerId,
-        orderId,
-      }
-    );
-
+    const response = await axios.post(`${BASE_URL}/shop/order/capture`, {
+      paymentId,
+      payerId,
+      orderId,
+    });
     return response.data;
   }
 );
 
+// Get all orders for a user
 export const getAllOrdersByUserId = createAsyncThunk(
   "/order/getAllOrdersByUserId",
   async (userId) => {
-    const response = await axios.get(
-      `http://localhost:5000/api/shop/order/list/${userId}`
-    );
-
+    const response = await axios.get(`${BASE_URL}/shop/order/list/${userId}`);
     return response.data;
   }
 );
 
+// Get details of a specific order
 export const getOrderDetails = createAsyncThunk(
   "/order/getOrderDetails",
   async (id) => {
-    const response = await axios.get(
-      `http://localhost:5000/api/shop/order/details/${id}`
-    );
-
+    const response = await axios.get(`${BASE_URL}/shop/order/details/${id}`);
     return response.data;
   }
 );
